@@ -10,6 +10,7 @@ TagManager:
   - PizzaPoint
   - ClientPoint
   - EndRoad
+  - StartRoad
   layers:
   - Default
   - TransparentFX

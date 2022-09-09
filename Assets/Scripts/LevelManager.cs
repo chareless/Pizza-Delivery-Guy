@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour
         endControl = false;
         pizzaCount = 0;
     }
-
+    //Bölümün tamamlanmasý için gereken müþteri sayýsý saðlandýðýnda kazanýlan parayý kaydediyor
     void WinLoseControl()
     {
         if(endControl)
@@ -51,11 +51,13 @@ public class LevelManager : MonoBehaviour
             else
             {
                 GameManager.winOrLose = -1;
+                endControl = false;
             }
         }
     }
 
-
+    //Kuryenin tepsisindeki referans noktasýna pizza ekliyor ve referans noktasýný pizza
+    //boyutu kadar arttýrýyor
     void SpawnPizza()
     {
         for (int i = 0; i < pizzaCount; i++)
@@ -68,6 +70,7 @@ public class LevelManager : MonoBehaviour
 
     void PizzaControl()
     {
+        //Pizza alma noktasýna gelindiyse noktanýn indexindeki pizzayý araca ekliyor
         if(takePizza==true)
         {
             pizzaCount = truckPizza[truckNumber];
@@ -76,7 +79,8 @@ public class LevelManager : MonoBehaviour
             takePizza = false;
         }
 
-        if(givePizza==true)
+        //Müþteriye verildikten sonra kalan pizza sayýsýný tekrar oluþturuyor
+        if (givePizza==true)
         {
             int kalan = Player.currentPizza - clientPizza[clientNumber];
             if (kalan >= 0)
@@ -96,10 +100,7 @@ public class LevelManager : MonoBehaviour
     {
         for(int i=0;i<clients.Length;i++)
         {
-            if(i>=completedClient)
-            {
-                clientText[i].text = "-" + clientPizza[i].ToString();
-            }
+            clientText[i].text = "-" + clientPizza[i].ToString();
         }
     }
 
@@ -107,10 +108,7 @@ public class LevelManager : MonoBehaviour
     {
         for (int i = 0; i < trucks.Length; i++)
         {
-            if (i >= completedTruck)
-            {
-                truckText[i].text = "+" + truckPizza[i].ToString();
-            }
+            truckText[i].text = "+" + truckPizza[i].ToString();
         }
     }
 

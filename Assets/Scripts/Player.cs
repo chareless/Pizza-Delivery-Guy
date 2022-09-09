@@ -24,8 +24,6 @@ public class Player : MonoBehaviour
     {
         Application.targetFrameRate = 120;
         rb = GetComponent<Rigidbody>();
-        pizzaPoints = GameObject.FindGameObjectsWithTag("PizzaPoint");
-        clientPoints = GameObject.FindGameObjectsWithTag("ClientPoint");
         hadPizza = false;
         currentPizza = 0;
     }
@@ -42,11 +40,11 @@ public class Player : MonoBehaviour
             Touch parmak = Input.GetTouch(0);
             transform.position += new Vector3(parmak.deltaPosition.x, 0, 0) * Time.fixedDeltaTime * rlSpeed;
 
+            //Araçta pizza varsa pizzalarýn sallanmasýný gerçekleþtiriyor
             if (hadPizza)
             {
                 tabak.transform.rotation = Quaternion.Euler(0, 0, parmak.deltaPosition.x / rotateAngle);
             }
-            
         }
         else
         {
@@ -72,7 +70,8 @@ public class Player : MonoBehaviour
 
             transform.position += new Vector3(fark, 0, 0) * Time.fixedDeltaTime * rlSpeed;
 
-            if(hadPizza)
+            //Araçta pizza varsa pizzalarýn sallanmasýný gerçekleþtiriyor
+            if (hadPizza)
             {
                 tabak.transform.rotation = Quaternion.Euler(0, 0, fark / rotateAngle);
             }
@@ -94,7 +93,7 @@ public class Player : MonoBehaviour
     void KeyboardController()
     {
         velocity = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
-        transform.position += velocity * 2 * Time.fixedDeltaTime;
+        transform.position += velocity * 5 * Time.fixedDeltaTime;
     }
 
     void ShowText()
@@ -125,8 +124,6 @@ public class Player : MonoBehaviour
             MoveForward();
 
             ShowText();
-
-
         }
     }
     private void OnCollisionExit(Collision collision)
@@ -137,7 +134,6 @@ public class Player : MonoBehaviour
         }
     }
     
-    
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag=="PizzaPoint")
@@ -146,6 +142,7 @@ public class Player : MonoBehaviour
             hadPizza = false;
             LevelManager.takePizza = true;
             
+            //Kaçýncý pizza noktasýna temas edildiðini levelmanagere iletiyor
             for(int i=0;i<pizzaPoints.Length;i++)
             {
                 if (collision.gameObject == pizzaPoints[i])
@@ -154,7 +151,6 @@ public class Player : MonoBehaviour
                 }
             }
             
-
             Destroy(collision.gameObject);
         }
 
@@ -165,6 +161,7 @@ public class Player : MonoBehaviour
             DestroyAllPizzas();
             LevelManager.givePizza = true;
 
+            //Kaçýncý müþteri noktasýna temas edildiðini levelmanagere iletiyor
             for (int i = 0; i < clientPoints.Length; i++)
             {
                 if (collision.gameObject == clientPoints[i])
@@ -184,6 +181,12 @@ public class Player : MonoBehaviour
         if(collision.gameObject.tag=="EndRoad")
         {
             LevelManager.endControl = true;
+        }
+
+        if(collision.gameObject.tag=="StartRoad")
+        {
+            pizzaPoints = GameObject.FindGameObjectsWithTag("PizzaPoint");
+            clientPoints = GameObject.FindGameObjectsWithTag("ClientPoint");
         }
     }
 }

@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
             level = PlayerPrefs.GetInt("Level");
             money = PlayerPrefs.GetInt("Money");
         }
+        //Editörden baþlanmasý istenilen levelden oyunu devam ettiriyor
         if (chosenLevel > 0 && !overLevel)
         {
             level = chosenLevel;
@@ -59,7 +60,7 @@ public class GameManager : MonoBehaviour
             tapText.SetActive(false);
         }
     }
-
+    //Kazanma/kaybetme durumuna göre panel açýyor
     void PanelControl()
     {
         if (winOrLose == -1)
@@ -92,6 +93,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            //Eklenmiþ level sayýsýný geçerse eski levelleri rastgele olarak döndürüyor
             overLevels = level;
             if (PlayerPrefs.GetString(overLevels.ToString()) != "")
             {
