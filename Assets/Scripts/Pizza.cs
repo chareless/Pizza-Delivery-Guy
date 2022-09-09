@@ -4,22 +4,13 @@ using UnityEngine;
 
 public class Pizza : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag=="Pizza" || collision.gameObject.tag=="Tabak")
+        if(collision.gameObject.tag=="Tabak" ||collision.gameObject.tag=="Pizza")
         {
-            transform.parent = collision.transform;
+            transform.parent = GameObject.FindGameObjectWithTag("Tabak").transform;
         }
     }
+
 }

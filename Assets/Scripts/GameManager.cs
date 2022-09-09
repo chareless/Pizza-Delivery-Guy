@@ -14,17 +14,21 @@ public class GameManager : MonoBehaviour
     public static int level = 1;
     public int chosenLevel;
     public TextMeshProUGUI levelText;
+    public TextMeshProUGUI moneyText;
     public GameObject tapText;
     public GameObject winPanel;
     public GameObject losePanel;
     public GameObject[] levels;
     public int overLevels;
+    public static int money;
 
     void Start()
     {
+        //PlayerPrefs.DeleteAll();
         if (PlayerPrefs.GetInt("Level") > 1)
         {
             level = PlayerPrefs.GetInt("Level");
+            money = PlayerPrefs.GetInt("Money");
         }
         if (chosenLevel > 0 && !overLevel)
         {
@@ -100,7 +104,6 @@ public class GameManager : MonoBehaviour
                 PlayerPrefs.SetString(overLevels.ToString(), random.ToString());
                 levels[random].SetActive(true);
             }
-
         }
     }
     public void NextLevelButton()
@@ -108,32 +111,45 @@ public class GameManager : MonoBehaviour
         level++;
         winOrLose = 0;
         PlayerPrefs.SetInt("Level", level);
+        PlayerPrefs.SetInt("Money", money);
         PlayerPrefs.Save();
         if (level > levels.Length)
         {
             overLevel = true;
-            SceneManager.LoadScene("SampleScene");
         }
-        LevelController();
+        SceneManager.LoadScene("SampleScene");
     }
 
     public void TryButton()
     {
         restart = true;
-        //LevelManager.miniLevel = 0;
         winOrLose = 0;
         SceneManager.LoadScene("SampleScene");
     }
 
-    void ShowLevel()
+    public void QuitButton()
+    {
+        if(winOrLose==1)
+        {
+            level++;
+            PlayerPrefs.SetInt("Level", level);
+            PlayerPrefs.SetInt("Money", money);
+            PlayerPrefs.Save();
+        }
+
+        Application.Quit();
+    }
+
+    void ShowText()
     {
         levelText.text = "LEVEL " + level;
+        moneyText.text = "MONEY " + money + "(+" + LevelManager.collectedMoney + ")";
     }
 
     void Update()
     {
         TouchController();
-        ShowLevel();
+        ShowText();
         PanelControl();
     }
 }

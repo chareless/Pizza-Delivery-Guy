@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -14,14 +16,23 @@ public class Player : MonoBehaviour
     public float rotateAngle;
     public static bool hadPizza;
     public static int currentPizza;
+    public TextMeshProUGUI pizzaText;
+
+    GameObject[] pizzaPoints;
+    GameObject[] clientPoints;
     void Start()
     {
+        Application.targetFrameRate = 120;
         rb = GetComponent<Rigidbody>();
+        pizzaPoints = GameObject.FindGameObjectsWithTag("PizzaPoint");
+        clientPoints = GameObject.FindGameObjectsWithTag("ClientPoint");
+        hadPizza = false;
+        currentPizza = 0;
     }
 
     void MoveForward()
     {
-        transform.position += new Vector3(0, 0, bikeSpeed) * Time.fixedDeltaTime;
+        transform.position += new Vector3(0, 0, bikeSpeed) * Time.fixedDeltaTime ;
     }
 
     void PhoneController()
@@ -30,6 +41,20 @@ public class Player : MonoBehaviour
         {
             Touch parmak = Input.GetTouch(0);
             transform.position += new Vector3(parmak.deltaPosition.x, 0, 0) * Time.fixedDeltaTime * rlSpeed;
+
+            if (hadPizza)
+            {
+                tabak.transform.rotation = Quaternion.Euler(0, 0, parmak.deltaPosition.x / rotateAngle);
+            }
+            
+        }
+        else
+        {
+            tabak.transform.rotation = Quaternion.Euler(0, 0, 0);
+            if (currentPizza > 0)
+            {
+                hadPizza = true;
+            }
         }
     }
 
@@ -72,9 +97,24 @@ public class Player : MonoBehaviour
         transform.position += velocity * 2 * Time.fixedDeltaTime;
     }
 
+    void ShowText()
+    {
+        pizzaText.text=currentPizza.ToString();
+    }
+
+    void DestroyAllPizzas()
+    {
+        GameObject[] gameObjects;
+        gameObjects = GameObject.FindGameObjectsWithTag("Pizza");
+        foreach (GameObject pizzas in gameObjects)
+        {
+            Destroy(pizzas);
+        }
+    }
+
     void Update()
     {
-        if (GameManager.gameStarted)
+        if (GameManager.gameStarted && GameManager.winOrLose == 0)
         {
             //KeyboardController();
 
@@ -84,33 +124,66 @@ public class Player : MonoBehaviour
 
             MoveForward();
 
+            ShowText();
 
 
         }
     }
-
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.tag == "Road")
         {
-            Debug.Log("Lose");
+            GameManager.winOrLose = -1;
         }
     }
-
+    
+    
     private void OnCollisionEnter(Collision collision)
     {
-
         if (collision.gameObject.tag=="PizzaPoint")
         {
+            tabak.transform.rotation = Quaternion.Euler(0, 0, 0);
+            hadPizza = false;
+            LevelManager.takePizza = true;
+            
+            for(int i=0;i<pizzaPoints.Length;i++)
+            {
+                if (collision.gameObject == pizzaPoints[i])
+                {
+                    LevelManager.truckNumber = i;
+                }
+            }
+            
+
             Destroy(collision.gameObject);
-            PizzaHolder.takePizza = true;
         }
 
         if(collision.gameObject.tag=="ClientPoint")
         {
+            tabak.transform.rotation = Quaternion.Euler(0, 0, 0);
+            hadPizza = false;
+            DestroyAllPizzas();
+            LevelManager.givePizza = true;
+
+            for (int i = 0; i < clientPoints.Length; i++)
+            {
+                if (collision.gameObject == clientPoints[i])
+                {
+                    LevelManager.clientNumber = i;
+                }
+            }
+
             Destroy(collision.gameObject);
-            Destroy(GameObject.FindGameObjectWithTag("Pizza"));
-            PizzaHolder.givePizza = true;
+        }
+
+        if(collision.gameObject.tag=="Car")
+        {
+            GameManager.winOrLose = -1;
+        }
+
+        if(collision.gameObject.tag=="EndRoad")
+        {
+            LevelManager.endControl = true;
         }
     }
 }
