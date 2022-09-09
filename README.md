@@ -22,3 +22,6 @@ KARŞILAŞTIĞIM ZORLUKLAR
 -Hareket halindeyken pizza alındığında sallanma yüzünden pizzaların şekli bozuk ekleniyordu. Bu sebeple pizzaları aldıktan veya verdikten sonra tekrar sallanabilmesi için ekrana dokunmayı bırakmak gerekmektedir.
 -Pizza alma ve müşteri noktalarında kaçıncı noktalara uğradığımı bulmak için " pizzaPoints = GameObject.FindGameObjectsWithTag("PizzaPoint")" kullandım. Bunu kullanmak geç aklıma geldiği için ilk başlarda zorladı.
 -Müşterilere pizza verirken tüm pizzaları silip kalan pizza sayısı kadar tekrar üretiyordum. Sonradan liste şeklinde yapmayı öğrendim ve düzelttim.
+
+APK LİNKİ
+https://drive.google.com/drive/folders/1XhkHqkomEnSg0sOM7H8_chvBSVBImXL1
