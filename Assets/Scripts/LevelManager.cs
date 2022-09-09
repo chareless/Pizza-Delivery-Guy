@@ -79,19 +79,26 @@ public class LevelManager : MonoBehaviour
             takePizza = false;
         }
 
-        //Müþteriye verildikten sonra kalan pizza sayýsýný tekrar oluþturuyor
+        //Müþterinin istediði pizza kadar pizzayý listenin sonundan siliyor
         if (givePizza==true)
         {
-            int kalan = Player.currentPizza - clientPizza[clientNumber];
-            if (kalan >= 0)
+            if (Player.currentPizza - clientPizza[clientNumber] >= 0)
             {
                 collectedMoney += pizzaPrice * clientPizza[clientNumber];
-                pizzaCount = kalan;
                 completedClient++;
+                reference.transform.position -= new Vector3(0, clientPizza[clientNumber] * pizzaBox.transform.localScale.y, 0);
+
+                GameObject[] pizzas;
+                pizzas = GameObject.FindGameObjectsWithTag("Pizza");
+                int givenPizza = 0;
+                for (int i = Player.currentPizza; i > Player.currentPizza - clientPizza[clientNumber]; i--)
+                {
+                    Destroy(pizzas[i - 1]);
+                    givenPizza++;
+                }
+
+                Player.currentPizza -= givenPizza;
             }
-            reference.transform.position -= new Vector3(0, Player.currentPizza * pizzaBox.transform.localScale.y, 0);
-            Player.currentPizza = 0;
-            SpawnPizza();
             givePizza = false;
         }
     }

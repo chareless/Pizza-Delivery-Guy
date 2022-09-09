@@ -20,6 +20,9 @@ public class Player : MonoBehaviour
 
     GameObject[] pizzaPoints;
     GameObject[] clientPoints;
+
+    GameObject[] pizza;
+
     void Start()
     {
         Application.targetFrameRate = 120;
@@ -86,7 +89,6 @@ public class Player : MonoBehaviour
             {
                 hadPizza = true;
             }
-            
         }
     }
 
@@ -99,16 +101,6 @@ public class Player : MonoBehaviour
     void ShowText()
     {
         pizzaText.text=currentPizza.ToString();
-    }
-
-    void DestroyAllPizzas()
-    {
-        GameObject[] gameObjects;
-        gameObjects = GameObject.FindGameObjectsWithTag("Pizza");
-        foreach (GameObject pizzas in gameObjects)
-        {
-            Destroy(pizzas);
-        }
     }
 
     void Update()
@@ -158,7 +150,6 @@ public class Player : MonoBehaviour
         {
             tabak.transform.rotation = Quaternion.Euler(0, 0, 0);
             hadPizza = false;
-            DestroyAllPizzas();
             LevelManager.givePizza = true;
 
             //Kaçýncý müþteri noktasýna temas edildiðini levelmanagere iletiyor
