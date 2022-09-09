@@ -21,4 +21,4 @@ KARŞILAŞTIĞIM ZORLUKLAR
 -Pizzaların bir arada durup araca bağlanması konusunda zorluk yaşamıştım. Sonrasında  "transform.parent = GameObject.FindGameObjectWithTag("Tabak").transform " kullanarak tüm pizzaları tabak objesine child olarak ekledim. 
 -Hareket halindeyken pizza alındığında sallanma yüzünden pizzaların şekli bozuk ekleniyordu. Bu sebeple pizzaları aldıktan veya verdikten sonra tekrar sallanabilmesi için ekrana dokunmayı bırakmak gerekmektedir.
 -Pizza alma ve müşteri noktalarında kaçıncı noktalara uğradığımı bulmak için " pizzaPoints = GameObject.FindGameObjectsWithTag("PizzaPoint")" kullandım. Bunu kullanmak geç aklıma geldiği için ilk başlarda zorladı.
--Üretilen pizzaları listede tutma kısmını yapamadığım için müşterilere pizza verirken tüm pizzaları silip kalan pizza sayısı kadar tekrar üretiyorum.
+-Müşterilere pizza verirken tüm pizzaları silip kalan pizza sayısı kadar tekrar üretiyordum. Sonradan liste şeklinde yapmayı öğrendim ve düzelttim.
